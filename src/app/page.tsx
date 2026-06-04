@@ -1,7 +1,7 @@
 export default function Home() {
   return (
     <div>
-      <h1>Mundo Pet</h1>
+      <h1 className="text-accent-blue">Mundo Pet</h1>
     </div>
   );
 }
