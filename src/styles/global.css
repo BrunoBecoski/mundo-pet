@@ -29,33 +29,33 @@
   --font-family-title: 'Inter Tight', sans-serif;
   --font-family-body: 'Inter', sans-serif;
 
-  --text-title-size: 24px;
-  --text-title-line-height: 32px;
-  --text-title-weight: 700;
+  --text-title: 24px;
+  --text-title--line-height: 32px;
+  --text-title--font-weight: 700;
 
-  --text-paragraph-medium-size: 14px;
-  --text-paragraph-medium-line-height: 24px;
-  --text-paragraph-medium-weight: 500;
+  --text-paragraph-medium: 14px;
+  --text-paragraph-medium--line-height: 24px;
+  --text-paragraph-medium--font-weight: 500;
 
-  --text-paragraph-small-size: 12px;
-  --text-paragraph-small-line-height: 16px;
-  --text-paragraph-small-weight: 500;
+  --text-paragraph-small: 12px;
+  --text-paragraph-small--line-height: 16px;
+  --text-paragraph-small--font-weight: 500;
 
-  --text-label-large-size: 16px;
-  --text-label-large-line-height: 24px;
-  --text-label-large-weight: 700;
+  --text-label-large: 16px;
+  --text-label-large--line-height: 24px;
+  --text-label-large--font-weight: 700;
 
-  --text-label-medium-size: 14px;
-  --text-label-medium-line-height: 24px;
-  --text-label-medium-weight: 700;
+  --text-label-medium: 14px;
+  --text-label-medium--line-height: 24px;
+  --text-label-medium--font-weight: 700;
 
-  --text-label-small-size: 12px;
-  --text-label-small-line-height: 16px;
-  --text-label-small-weight: 700;
+  --text-label-small: 12px;
+  --text-label-small--line-height: 16px;
+  --text-label-small--font-weight: 700;
 
-  --text-link-size: 12px;
-  --text-link-line-height: 16px;
-  --text-link-weight: 500;
+  --text-link: 12px;
+  --text-link--line-height: 16px;
+  --text-link--font-weight: 500;
 }
 
 :root {
@@ -95,21 +95,21 @@
   h5,
   h6 {
     font-family: var(--font-inter-tight), sans-serif;
-    font-weight: var(--text-title-weight);
+    font-weight: var(--text-title--weight);
   }
 
   h1 {
-    font-size: var(--text-title-size);
-    line-height: var(--text-title-line-height);
+    font-size: var(--text-title);
+    line-height: var(--text-title--line-height);
   }
 }
 
 @layer utilities {
   .text-title {
     font-family: var(--font-inter-tight), sans-serif;
-    font-size: var(--text-title-size);
-    line-height: var(--text-title-line-height);
-    font-weight: var(--text-title-weight);
+    font-size: var(--text-title);
+    line-height: var(--text-title--line-height);
+    font-weight: var(--text-title--weight);
   }
 
   .text-title-modal {
@@ -121,44 +121,44 @@
 
   .text-paragraph-medium {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-paragraph-medium-size);
-    line-height: var(--text-paragraph-medium-line-height);
-    font-weight: var(--text-paragraph-medium-weight);
+    font-size: var(--text-paragraph-medium);
+    line-height: var(--text-paragraph-medium--line-height);
+    font-weight: var(--text-paragraph-medium--weight);
   }
 
   .text-paragraph-small {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-paragraph-small-size);
-    line-height: var(--text-paragraph-small-line-height);
-    font-weight: var(--text-paragraph-small-weight);
+    font-size: var(--text-paragraph-small);
+    line-height: var(--text-paragraph-small--line-height);
+    font-weight: var(--text-paragraph-small--weight);
   }
 
   .text-label-large {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-label-large-size);
-    line-height: var(--text-label-large-line-height);
-    font-weight: var(--text-label-large-weight);
+    font-size: var(--text-label-large);
+    line-height: var(--text-label-large--line-height);
+    font-weight: var(--text-label-large--weight);
   }
 
   .text-label-medium {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-label-medium-size);
-    line-height: var(--text-label-medium-line-height);
-    font-weight: var(--text-label-medium-weight);
+    font-size: var(--text-label-medium);
+    line-height: var(--text-label-medium--line-height);
+    font-weight: var(--text-label-medium--weight);
   }
 
   .text-label-small {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-label-small-size);
-    line-height: var(--text-label-small-line-height);
-    font-weight: var(--text-label-small-weight);
+    font-size: var(--text-label-small);
+    line-height: var(--text-label-small--line-height);
+    font-weight: var(--text-label-small--weight);
   }
 
   .text-link {
     font-family: var(--font-inter), sans-serif;
-    font-size: var(--text-link-size);
-    line-height: var(--text-link-line-height);
-    font-weight: var(--text-link-weight);
+    font-size: var(--text-link);
+    line-height: var(--text-link--line-height);
+    font-weight: var(--text-link--weight);
   }
 
   .text-content-primary {
