@@ -1,4 +1,10 @@
 import { PeriodSection } from "@/components/period-section";
+import type {
+  PeriodType,
+  AppointmentType,
+  AppointmentPeriodType,
+  AppointmentPrismaType
+} from "@/types/appointments"
 
 const appointments = [
   {
@@ -34,7 +40,61 @@ const appointments = [
     scheduleAt: new Date('2025-08-17T19:00:00'),
   },
 ];
+
+function getPeriod(hour: number): PeriodType {
+  if (hour >= 9 || hour < 12) return 'morning'
+
+  if (hour >= 13 || hour < 18) return 'afternoon'
+
+  return 'evening'
+}
+
+function groupAppointmentByPeriod(appointments: AppointmentPrismaType[]): AppointmentPeriodType[] {
+  const transformedAppointments: AppointmentType[] = appointments.map((apt) => ({
+    ...apt,
+    time: apt.scheduleAt.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
+    service: apt.description,
+    period: getPeriod(apt.scheduleAt.getHours())
+  }))
+
+  const morningAppointments = transformedAppointments.filter((apt) =>
+    apt.period === 'morning'
+  )
+  const afternoonAppointments = transformedAppointments.filter((apt) => 
+    apt.period === 'afternoon' 
+  )
+  const eveningAppointments = transformedAppointments.filter((apt) => 
+    apt.period === 'evening' 
+  )
+
+  return [
+    {
+      title: 'Manhã',
+      type: 'morning',
+      timeRange: '09h-12h',
+      appointments: morningAppointments,
+    },
+    {
+      title: 'Tarde',
+      type: 'afternoon',
+      timeRange: '13h-18h',
+      appointments: afternoonAppointments,
+    },
+    {
+      title: 'Noite',
+      type: 'evening',
+      timeRange: '19h-21h',
+      appointments: eveningAppointments,
+    },
+  ]
+}
+
 export default function Home() {
+  const periods = groupAppointmentByPeriod(appointments)
+
   return (
     <div className="bg-background-primary p-6 ">
       <div className="flex items-center justify-between md:mb-8">
@@ -48,7 +108,11 @@ export default function Home() {
         </div>
       </div>
 
-      <PeriodSection period={[]} />
+      <div className="pb-24 md:pb-0 ">
+        {periods.map(period => 
+          <PeriodSection key={period.type} period={period} />
+        )}
+      </div>
    </div>
   );
 }
