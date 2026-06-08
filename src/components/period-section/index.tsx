@@ -1,6 +1,6 @@
-import { Cloudy, Moon, Sun } from "lucide-react"
+import { Cloudy, Moon, Sun } from "lucide-react";
 
-import { AppointmentPeriodType } from "@/types/appointments"
+import { AppointmentPeriodType } from "@/types/appointments";
 
 const periodIcons = {
   morning: <Sun  className="text-accent-blue"/>,
@@ -27,6 +27,25 @@ export function PeriodSection({ period }: PeriodSectionProps) {
           {period.timeRange}
         </span>
       </div>
+      
+      {period.appointments.length > 0 ? (
+        <div className="px-5"> 
+          <div>
+            <div className="grid grid-cols-2 md:hidden text-label-small text-content-secondary mb-2">
+              <div className="text-left">Horário</div>
+              <div className="text-right">Paciente</div>
+            </div>
+
+            {period.appointments.map(appointment => (
+              <div key={appointment.id}>
+                {appointment.petName}
+              </div>
+            ))}
+          </div>
+        </div>
+        ) : (
+          <p>Nenhum agendamento para este período</p>
+      )}
     </section>
   )
 }

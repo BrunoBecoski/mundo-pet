@@ -4,7 +4,7 @@ import type {
   AppointmentType,
   AppointmentPeriodType,
   AppointmentPrismaType
-} from "@/types/appointments"
+} from "@/types/appointments";
 
 const appointments = [
   {
@@ -42,9 +42,9 @@ const appointments = [
 ];
 
 function getPeriod(hour: number): PeriodType {
-  if (hour >= 9 || hour < 12) return 'morning'
+  if (hour >= 9 && hour < 12) return 'morning'
 
-  if (hour >= 13 || hour < 18) return 'afternoon'
+  if (hour >= 13 && hour < 18) return 'afternoon'
 
   return 'evening'
 }
