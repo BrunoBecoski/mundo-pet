@@ -1,3 +1,4 @@
+import { AppointmentForm } from "@/components/appointment-form";
 import { PeriodSection } from "@/components/period-section";
 import { prisma } from "@/lib/prisma";
 import { groupAppointmentByPeriod } from "@/utils/appointments";
@@ -26,6 +27,10 @@ export default async function Home() {
         {periods.map(period => 
           <PeriodSection key={period.type} period={period} />
         )}
+      </div>
+
+      <div className="fixed right-0 bottom-0 left-0 flex justify-center bg-[#23242C] py-5 px-6 md:top-auto md:right-6 md:bottom-6 md:left-auto md:w-auto md:bg-transparent md:p-0">
+        <AppointmentForm />
       </div>
    </div>
   );
