@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "appointments" (
     "id" TEXT NOT NULL,
-    "tutorName" TEXT NOT NULL,
+    "ownerName" TEXT NOT NULL,
     "petName" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "description" TEXT NOT NULL,

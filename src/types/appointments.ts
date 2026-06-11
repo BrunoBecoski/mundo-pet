@@ -4,7 +4,7 @@ export type AppointmentType = {
   id: string;
   time: string;
   petName: string;
-  tutorName: string; 
+  ownerName: string; 
   phone: string;
   description: string;
   scheduleAt: Date;
@@ -20,7 +20,7 @@ export type AppointmentPeriodType = {
 
 export type AppointmentPrismaType = {
   id: string;
-  tutorName: string;
+  ownerName: string;
   petName: string;
   phone: string;
   description: string;

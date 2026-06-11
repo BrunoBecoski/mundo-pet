@@ -24,7 +24,7 @@ export function AppointmentCard({ appointment, isFirstInSection = false }: Appoi
             {appointment.petName}
           </span>
           <span className="text-paragraph-small text-content-secondary font-semibold">
-            {'/ ' + appointment.tutorName}
+            {'/ ' + appointment.ownerName}
           </span>
         </div>
       </div>
