@@ -1,6 +1,6 @@
 'use client';
 
-import { Dog, User } from "lucide-react";
+import { Dog, Phone, User } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Controller,
@@ -9,6 +9,7 @@ import {
   useForm
 } from "react-hook-form";
 import * as z from "zod";
+import { IMaskInput } from "react-imask";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -140,6 +141,41 @@ export function AppointmentForm() {
                       className="pl-10"
                       placeholder="Hannah"
                       {...field}
+                    />
+                  </div>
+
+                  {fieldState.invalid &&
+                    <FieldError errors={[fieldState.error]} />
+                  }
+                </Field>
+              )}
+            />
+
+            <Controller
+              control={form.control}
+              name="phone"
+              render={({ field, fieldState }) => (
+                <Field className="">
+                  <FieldLabel
+                    htmlFor="phone"
+                    className="text-label-medium text-content-primary"
+                  >
+                    Telefone
+                  </FieldLabel>
+
+                  <div className="relative">
+                    <Phone
+                      className="absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand"
+                      size={20}
+                    />
+
+                    <IMaskInput
+                      id="phone"
+                      className="pl-10 flex h-12 w-full rounded-md border border-border-primary bg-background-tertiary px-3 py-2 text-sm text-content-primary ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-content-secondary focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-border-brand disabled:cursor-not-allowed disabled:opacity-50 hover:border-border-secondary focus:border-border-brand focus-visible:border-border-brand aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
+                      placeholder="(00) 0 0000-0000"
+                      mask="(00) 0 0000-0000"
+                      {...field}
+
                     />
                   </div>
 
