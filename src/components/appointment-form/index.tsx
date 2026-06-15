@@ -1,19 +1,30 @@
 'use client';
 
-import { Dog, Phone, User } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IMaskInput } from "react-imask";
+import { format, startOfToday } from "date-fns";
+import * as z from "zod";
 import {
   Controller,
   FieldValues,
   Resolver,
   useForm
 } from "react-hook-form";
-import * as z from "zod";
-import { IMaskInput } from "react-imask";
+import {
+  ChevronDownIcon,
+  Dog,
+  Phone,
+  User,
+  Calendar as CalendarIcon
+} from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Textarea } from "@/components/ui/textarea";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -22,7 +33,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
 
 const asZodResolver = <T extends FieldValues>(
   schema: unknown,
@@ -37,6 +47,11 @@ const appointmentFormSchema = z.object({
   petName: z.string().min(3, 'O nome do pet é obrigatório'),
   phone: z.string().min(3, 'O telefone é obrigatório'),
   description: z.string().min(3, 'A descrição é obrigatória'),
+  scheduleAt: z.date({
+    error: 'A data é obrigatória'
+  }).min(startOfToday(), {
+    message: 'A data não pode ser no passado'
+  }),
 })
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>
@@ -49,6 +64,7 @@ export function AppointmentForm() {
       petName: '',
       phone: '',
       description: '',
+      scheduleAt: undefined,
     }
   })
 
@@ -89,7 +105,7 @@ export function AppointmentForm() {
               control={form.control}
               name="ownerName"
               render={({ field, fieldState }) => (
-                <Field className="">
+                <Field>
                   <FieldLabel
                     htmlFor="ownerName"
                     className="text-label-medium text-content-primary"
@@ -122,7 +138,7 @@ export function AppointmentForm() {
               control={form.control}
               name="petName"
               render={({ field, fieldState }) => (
-                <Field className="">
+                <Field>
                   <FieldLabel
                     htmlFor="petName"
                     className="text-label-medium text-content-primary"
@@ -155,7 +171,7 @@ export function AppointmentForm() {
               control={form.control}
               name="phone"
               render={({ field, fieldState }) => (
-                <Field className="">
+                <Field>
                   <FieldLabel
                     htmlFor="phone"
                     className="text-label-medium text-content-primary"
@@ -190,7 +206,7 @@ export function AppointmentForm() {
               control={form.control}
               name="description"
               render={({ field, fieldState }) => (
-                <Field className="">
+                <Field>
                   <FieldLabel
                     htmlFor="description"
                     className="text-label-medium text-content-primary"
@@ -208,6 +224,58 @@ export function AppointmentForm() {
                   {fieldState.invalid &&
                     <FieldError errors={[fieldState.error]} />
                   }
+                </Field>
+              )}
+            />
+
+            <Controller
+              control={form.control}
+              name="scheduleAt"
+              render={({ field, fieldState }) => (
+                <Field className="flex flex-col">
+                  <FieldLabel
+                    htmlFor="scheduleAt"
+                    className="text-label-medium text-content-primary"
+                  >
+                    Data
+                  </FieldLabel>
+
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button
+                        variant="outline"
+                        type="button"
+                        className={cn(
+                          'w-full justify-between text-left font-normal bg-background-tertiary border-border-primary text-content-primary hover:bg-background-tertiary hover:border-border-secondary hover:text-content-primary focus-visible:ring-offset-0 focus-visible:ring-1 focus-visible:ring-border-brand focus:border-border-brand focus-visible:border-border-brand',
+                          !field.value && 'text-content-secondary'
+                        )}
+                      >
+                        <div className="flex items-center gap-2">
+                          <CalendarIcon
+                            className="text-content-brand"
+                            size={20}
+                          />
+                          {field.value
+                            ? (format(field.value, 'dd/MM/yyyy'))
+                            : (<span>Selecione uma data</span>)}
+                        </div>
+
+                        <ChevronDownIcon
+                          className="opacity-50"
+                          size={16}
+                        />
+                      </Button>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < startOfToday()}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </Field>
               )}
             />
