@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IMaskInput } from "react-imask";
-import { format, startOfToday } from "date-fns";
+import { format, setHours, setMinutes, startOfToday } from "date-fns";
 import * as z from "zod";
 import {
   Controller,
@@ -15,15 +15,16 @@ import {
   Dog,
   Phone,
   User,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Clock
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
@@ -33,6 +34,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const asZodResolver = <T extends FieldValues>(
   schema: unknown,
@@ -52,6 +54,19 @@ const appointmentFormSchema = z.object({
   }).min(startOfToday(), {
     message: 'A data não pode ser no passado'
   }),
+  time: z.string().min(1, 'A hora é obrigatória')
+}).refine(
+  (data) => {
+    const [hour, minute] = data.time.split(':')
+    const scheduleDateTime = setMinutes(
+      setHours(data.scheduleAt, Number(hour)),
+      Number(minute)
+    )
+
+    return scheduleDateTime > new Date()
+  }, {
+  path: ['time'],
+  error: 'O horário não pode set no passado',
 })
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>
@@ -65,6 +80,7 @@ export function AppointmentForm() {
       phone: '',
       description: '',
       scheduleAt: undefined,
+      time: '',
     }
   })
 
@@ -276,6 +292,53 @@ export function AppointmentForm() {
                       />
                     </PopoverContent>
                   </Popover>
+
+                  {fieldState.invalid &&
+                    <FieldError errors={[fieldState.error]} />
+                  }
+                </Field>
+              )}
+            />
+
+            <Controller
+              control={form.control}
+              name="time"
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel
+                    htmlFor="scheduleAt"
+                    className="text-label-medium text-content-primary"
+                  >
+                    Hora
+                  </FieldLabel>
+
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
+                    <SelectTrigger>
+                      <div className="flex items-center gap-2">
+                        <Clock
+                          className="text-content-brand"
+                          size={16}
+                        />
+                        <SelectValue placeholder="--:--" />
+                      </div>
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {TIME_OPTIONS.map((time) => (
+                        <SelectItem key={time} value={time}>
+                          {time}
+                        </SelectItem>
+                      ))}
+
+                    </SelectContent>
+                  </Select>
+
+                  {fieldState.invalid &&
+                    <FieldError errors={[fieldState.error]} />
+                  }
                 </Field>
               )}
             />
@@ -292,3 +355,19 @@ export function AppointmentForm() {
     </Dialog>
   )
 }
+
+function generateTimeOptions(): string[] {
+  const times = []
+
+  for (let hour = 9; hour <= 21; hour++) {
+    for (let minute = 0; minute < 60; minute += 30) {
+      if (hour === 21 && minute > 0) break;
+      const timeString = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+      times.push(timeString)
+    }
+  }
+
+  return times
+}
+
+const TIME_OPTIONS = generateTimeOptions()
