@@ -166,7 +166,7 @@ const dialogTitleVariants = cva('leading-none font-semibold', {
       default: 'text-lg',
       lg: 'text-xl',
       xl: 'text-2xl',
-      modal: 'text-title-modal text-content-primary',
+      modal: 'text-title text-left',
     },
   },
   defaultVariants: {
@@ -195,7 +195,7 @@ const dialogDescriptionVariants = cva('text-muted-foreground', {
       sm: 'text-xs',
       default: 'text-sm',
       lg: 'text-base',
-      modal: 'text-paragraph-medium text-content-secondary',
+      modal: 'text-paragraph-medium text-left',
     },
   },
   defaultVariants: {
