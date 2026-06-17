@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IMaskInput } from "react-imask";
 import { format, setHours, setMinutes, startOfToday } from "date-fns";
 import * as z from "zod";
+import { toast } from "sonner";
 import {
   Controller,
   FieldValues,
@@ -20,6 +21,7 @@ import {
   Loader2
 } from "lucide-react";
 
+import { createAppointment } from "@/app/actions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -85,8 +87,14 @@ export function AppointmentForm() {
     }
   })
 
-  function onSubmit(data: AppointmentFormValues) {
-    console.log(data)
+  async function onSubmit(data: AppointmentFormValues) {
+    const [hour, minute] = data.time.split(':')
+
+    data.scheduleAt.setHours(Number(hour), Number(minute), 0, 0)
+
+    await createAppointment(data)
+
+    toast.success('Agendamento criado com sucesso!')
   }
 
   return (
@@ -346,24 +354,23 @@ export function AppointmentForm() {
               />
             </div>
           </FieldGroup>
-
-          <div className="flex justify-end mt-5">
-            <Button
-              type="submit"
-              form="form-appointment"
-              variant="brand"
-              className="uppercase"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting && (
-                <Loader2 className=" animate-spin" size={16} />
-              )}
-
-              Agendar
-            </Button>
-          </div>
         </form>
 
+        <div className="flex justify-end mt-5">
+          <Button
+            type="submit"
+            form="form-appointment"
+            variant="brand"
+            className="uppercase"
+            disabled={form.formState.isSubmitting}
+          >
+            {form.formState.isSubmitting && (
+              <Loader2 className=" animate-spin" size={16} />
+            )}
+
+            Agendar
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )

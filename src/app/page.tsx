@@ -23,7 +23,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="pb-24 md:pb-0">
+      <div className="pb-24">
         {periods.map(period =>
           <PeriodSection key={period.type} period={period} />
         )}

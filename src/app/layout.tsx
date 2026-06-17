@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "sonner";
 import { Inter, Inter_Tight } from "next/font/google";
 
 import "@/styles/global.css";
@@ -31,7 +32,10 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${inter.variable} ${interTight.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster position="top-right" />
+      </body>
     </html>
   );
 }
