@@ -24,13 +24,13 @@ const buttonVariants = cva(
         remove:
           'inline-flex items-center gap-2 rounded-md border border-red-500/50 px-3 py-1 text-sm text-red-500 transition-all hover:bg-red-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         edit:
-          'inline-flex items-center gap-2 rounded-md border border-blue-500/50 px-3 py-1 text-sm text-blue-500 transition-all hover:bg-blue-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          'inline-flex items-center gap-2 rounded-md border border-background-brand px-3 py-1 text-sm text-background-brand transition-all hover:bg-background-highlights hover:border-background-highlights hover:text-[#050505] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
       },
       size: {
         default: 'h-12 px-4 py-3 has-[>svg]:px-3',
         sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
         lg: 'h-12 rounded-md px-6 has-[>svg]:px-4',
-        icon: 'size-9',
+        icon: 'size-8',
       },
     },
     defaultVariants: {

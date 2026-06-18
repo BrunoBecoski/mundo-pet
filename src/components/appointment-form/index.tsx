@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IMaskInput } from "react-imask";
 import { format, setHours, setMinutes, startOfToday } from "date-fns";
@@ -21,8 +22,10 @@ import {
   Loader2
 } from "lucide-react";
 
-import { createAppointment } from "@/app/actions";
+
+import { createAppointment, updateAppointment } from "@/app/actions";
 import { cn } from "@/lib/utils";
+import type { AppointmentType } from "@/types/appointments";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -81,7 +84,14 @@ const appointmentFormSchema = z.object({
 
 type AppointmentFormValues = z.infer<typeof appointmentFormSchema>
 
-export function AppointmentForm() {
+interface AppointmentFormProps {
+  appointment?: AppointmentType;
+  children?: React.ReactNode;
+}
+
+export function AppointmentForm({ appointment, children }: AppointmentFormProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
   const form = useForm<AppointmentFormValues>({
     resolver: asZodResolver(appointmentFormSchema),
     defaultValues: {
@@ -99,25 +109,36 @@ export function AppointmentForm() {
 
     data.scheduleAt.setHours(Number(hour), Number(minute), 0, 0)
 
-    const result = await createAppointment(data)
+    const isEdit = !!appointment?.id
+
+    const result = isEdit
+      ? await updateAppointment(appointment.id, data)
+      : await createAppointment(data)
 
     if (result?.error) {
       toast.error(result.error)
       return
     }
 
-    toast.success('Agendamento criado com sucesso!')
+    toast.success(`Agendamento ${isEdit ? 'atualizado' : 'criado'} com sucesso!`)
 
+    setIsOpen(false)
     form.reset()
   }
 
+
+  useEffect(() => {
+    form.reset(appointment)
+  }, [appointment, form])
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="brand">
-          Novo Agendamento
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      {
+        children &&
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+      }
 
       <DialogContent
         variant="appointment"
