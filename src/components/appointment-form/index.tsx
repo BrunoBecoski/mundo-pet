@@ -37,7 +37,14 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 const asZodResolver = <T extends FieldValues>(
   schema: unknown,
@@ -92,9 +99,16 @@ export function AppointmentForm() {
 
     data.scheduleAt.setHours(Number(hour), Number(minute), 0, 0)
 
-    await createAppointment(data)
+    const result = await createAppointment(data)
+
+    if (result?.error) {
+      toast.error(result.error)
+      return
+    }
 
     toast.success('Agendamento criado com sucesso!')
+
+    form.reset()
   }
 
   return (
@@ -337,12 +351,13 @@ export function AppointmentForm() {
                       </SelectTrigger>
 
                       <SelectContent>
-                        {TIME_OPTIONS.map((time) => (
-                          <SelectItem key={time} value={time}>
-                            {time}
-                          </SelectItem>
-                        ))}
-
+                        <SelectGroup>
+                          {TIME_OPTIONS.map((time) => (
+                            <SelectItem key={time} value={time}>
+                              {time}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
 
@@ -354,23 +369,23 @@ export function AppointmentForm() {
               />
             </div>
           </FieldGroup>
+
+          <div className="flex justify-end mt-5">
+            <Button
+              type="submit"
+              form="form-appointment"
+              variant="brand"
+              className="uppercase"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting && (
+                <Loader2 className=" animate-spin" size={16} />
+              )}
+
+              Agendar
+            </Button>
+          </div>
         </form>
-
-        <div className="flex justify-end mt-5">
-          <Button
-            type="submit"
-            form="form-appointment"
-            variant="brand"
-            className="uppercase"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting && (
-              <Loader2 className=" animate-spin" size={16} />
-            )}
-
-            Agendar
-          </Button>
-        </div>
       </DialogContent>
     </Dialog>
   )

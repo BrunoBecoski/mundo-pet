@@ -4,7 +4,7 @@ import { AppointmentCard } from "@/components/appointment-card";
 import type { AppointmentPeriodType } from "@/types/appointments";
 
 const periodIcons = {
-  morning: <Sun  className="text-accent-blue"/>,
+  morning: <Sun className="text-accent-blue" />,
   afternoon: <Cloudy className="text-accent-orange" />,
   evening: <Moon className="text-accent-yellow" />,
 }
@@ -16,7 +16,7 @@ type PeriodSectionProps = {
 export function PeriodSection({ period }: PeriodSectionProps) {
   return (
     <section className="mb-8 bg-background-tertiary rounded-xl">
-      <div className="flex items-center px-5 py-3 justify-between border-b border-border-divisor"> 
+      <div className="flex items-center px-5 py-3 justify-between border-b border-border-divisor">
         <div className="flex items-center gap-2">
           {periodIcons[period.type]}
           <h2 className="text-label-large text-content-primary">
@@ -28,9 +28,9 @@ export function PeriodSection({ period }: PeriodSectionProps) {
           {period.timeRange}
         </span>
       </div>
-      
+
       {period.appointments.length > 0 ? (
-        <div className="px-5"> 
+        <div className="px-5">
           {period.appointments.map((appointment, index) => (
             <AppointmentCard
               key={appointment.id}
@@ -39,8 +39,10 @@ export function PeriodSection({ period }: PeriodSectionProps) {
             />
           ))}
         </div>
-        ) : (
-          <p>Nenhum agendamento para este período</p>
+      ) : (
+        <p className="text-center py-4 text-paragraph-small text-content-secondary">
+          Nenhum agendamento para este período
+        </p>
       )}
     </section>
   )

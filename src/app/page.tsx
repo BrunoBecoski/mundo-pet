@@ -5,10 +5,9 @@ import { groupAppointmentByPeriod } from "@/utils/appointments";
 import { APPOINTMENTS_DATA } from "@/utils/mock-data";
 
 export default async function Home() {
-  const appointment = await prisma.appointment.findMany()
-  console.log(appointment)
+  const appointments = await prisma.appointment.findMany()
 
-  const periods = groupAppointmentByPeriod(APPOINTMENTS_DATA)
+  const periods = groupAppointmentByPeriod(appointments)
 
   return (
     <div className="bg-background-primary p-6">
