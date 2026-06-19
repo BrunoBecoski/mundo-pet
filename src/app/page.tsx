@@ -1,13 +1,35 @@
+import { endOfDay, parseISO, startOfDay } from "date-fns";
+
 import { prisma } from "@/lib/prisma";
 import { groupAppointmentByPeriod } from "@/utils/appointments";
-import { AppointmentForm } from "@/components/appointment-form";
 import { PeriodSection } from "@/components/period-section";
+import { AppointmentForm } from "@/components/appointment-form";
 import { Button } from "@/components/ui/button";
 
 // import { APPOINTMENTS_DATA } from "@/utils/mock-data";
 
-export default async function Home() {
-  const appointments = await prisma.appointment.findMany()
+type Params = Promise<{ date?: string }>
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Params
+}) {
+  const { date } = await searchParams
+
+  const selectedDate = date ? parseISO(date) : new Date()
+
+  const appointments = await prisma.appointment.findMany({
+    where: {
+      scheduleAt: {
+        gte: startOfDay(selectedDate),
+        lte: endOfDay(selectedDate),
+      }
+    },
+    orderBy: {
+      scheduleAt: 'asc',
+    }
+  })
 
   const periods = groupAppointmentByPeriod(appointments)
 
