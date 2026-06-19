@@ -1,11 +1,25 @@
-'use client'
+'use client';
 
-import { Pen } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Loader2, Pen, Trash } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { AppointmentType } from "@/types/appointments";
 import { AppointmentForm } from "@/components/appointment-form";
 import { Button } from "@/components/ui/button";
+import { deleteAppointment } from "@/app/actions";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 interface AppointmentCardProps {
   appointment: AppointmentType;
@@ -13,6 +27,23 @@ interface AppointmentCardProps {
 }
 
 export function AppointmentCard({ appointment, isFirstInSection = false }: AppointmentCardProps) {
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  async function handleDelete() {
+    setIsDeleting(true)
+
+    const result = await deleteAppointment(appointment.id)
+
+    if (result?.error) {
+      toast.error(result.error)
+      setIsDeleting(false)
+      return
+    }
+
+    toast.success('Agendamento removido com sucesso!')
+    setIsDeleting(false)
+  }
+
   return (
     <div className={cn(
       "grid grid-cols-2 md:grid-cols-[15%_35%_30%_20%] items-center py-3",
@@ -47,6 +78,44 @@ export function AppointmentCard({ appointment, isFirstInSection = false }: Appoi
             <Pen />
           </Button>
         </AppointmentForm>
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="remove" size="icon">
+              <Trash />
+            </Button>
+          </AlertDialogTrigger>
+
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Remover agendamento
+              </AlertDialogTitle>
+
+              <AlertDialogDescription>
+                Tem certeza que deseja remover este agendamento? Esta ação não pode ser desfeita.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+
+            <AlertDialogFooter>
+              <AlertDialogCancel>
+                Cancelar
+              </AlertDialogCancel>
+
+              <AlertDialogAction
+                onClick={handleDelete}
+                disabled={isDeleting}
+              >
+                {isDeleting && (
+                  <Loader2
+                    className="mr-2 size-4 animate-spin"
+                  />
+                )}
+                Sim
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )
