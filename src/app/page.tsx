@@ -5,6 +5,7 @@ import { groupAppointmentByPeriod } from "@/utils/appointments";
 import { PeriodSection } from "@/components/period-section";
 import { AppointmentForm } from "@/components/appointment-form";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/date-picker";
 
 // import { APPOINTMENTS_DATA } from "@/utils/mock-data";
 
@@ -44,6 +45,14 @@ export default async function Home({
             Aqui você pode ver todos os clientes e serviços agendados para hoje.
           </p>
         </div>
+
+        <div className="hidden md:flex items-center gap-4">
+          <DatePicker />
+        </div>
+      </div>
+
+      <div className="mt-3 mb-8 md:hidden">
+        <DatePicker />
       </div>
 
       <div className="pb-24">

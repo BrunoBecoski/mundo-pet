@@ -174,10 +174,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                   </FieldLabel>
 
                   <div className="relative">
-                    <User
-                      className="absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand"
-                      size={20}
-                    />
+                    <User className="size-5 absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand" />
 
                     <Input
                       id="ownerName"
@@ -207,10 +204,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                   </FieldLabel>
 
                   <div className="relative">
-                    <Dog
-                      className="absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand"
-                      size={20}
-                    />
+                    <Dog className="size-5 absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand" />
 
                     <Input
                       id="petName"
@@ -240,10 +234,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                   </FieldLabel>
 
                   <div className="relative">
-                    <Phone
-                      className="absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand"
-                      size={20}
-                    />
+                    <Phone className="size-5 absolute left-3 top-1/2 -translate-y-1/2 transform text-content-brand" />
 
                     <IMaskInput
                       id="phone"
@@ -312,19 +303,13 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                           )}
                         >
                           <div className="flex items-center gap-2">
-                            <CalendarIcon
-                              className="text-content-brand"
-                              size={20}
-                            />
+                            <CalendarIcon className="size-5 text-content-brand" />
                             {field.value
                               ? (format(field.value, 'dd/MM/yyyy'))
                               : (<span>Selecione uma data</span>)}
                           </div>
 
-                          <ChevronDownIcon
-                            className="opacity-50"
-                            size={16}
-                          />
+                          <ChevronDownIcon className="size-4 opacity-50" />
                         </Button>
                       </PopoverTrigger>
 
@@ -363,10 +348,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                     >
                       <SelectTrigger>
                         <div className="flex items-center gap-2">
-                          <Clock
-                            className="text-content-brand"
-                            size={16}
-                          />
+                          <Clock className="size-4 text-content-brand" />
                           <SelectValue placeholder="--:--" />
                         </div>
                       </SelectTrigger>
@@ -400,7 +382,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
               disabled={form.formState.isSubmitting}
             >
               {form.formState.isSubmitting && (
-                <Loader2 className=" animate-spin" size={16} />
+                <Loader2 className="size-4 animate-spin" />
               )}
 
               Agendar
