@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Inter, Inter_Tight } from "next/font/google";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
+
 import "@/styles/global.css";
 
 const inter = Inter({
@@ -33,7 +35,7 @@ export default function RootLayout({
       className={`${inter.variable} ${interTight.variable} antialiased`}
     >
       <body>
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
         <Toaster position="top-right" />
       </body>
     </html>

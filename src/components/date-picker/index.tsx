@@ -9,6 +9,7 @@ import { ChevronDown, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { NavigationButton } from "./navigation-button";
 
 export function DatePicker() {
   const router = useRouter()
@@ -45,6 +46,11 @@ export function DatePicker() {
     updateURLWithDate(newDate)
   }
 
+  function handleDateSelect(selectedDate: Date | undefined) {
+    updateURLWithDate(selectedDate)
+    setIsPopoverOpen(false)
+  }
+
   useEffect(() => {
     const newDate = getInitialDate()
 
@@ -55,12 +61,12 @@ export function DatePicker() {
 
   return (
     <div className="flex items-center gap-2">
-      <Button
-        variant="outline"
+      <NavigationButton
+        tooltipText="Dia anterior"
         onClick={() => handleNavigateDay(-1)}
       >
         <ChevronLeft className="size-4" />
-      </Button>
+      </NavigationButton>
 
       <Popover
         open={isPopoverOpen}
@@ -73,28 +79,32 @@ export function DatePicker() {
           >
             <div className="flex items-center gap-2">
               <CalendarIcon className="size-4 text-content-brand" />
-              <span>
-                {date
-                  ? format(date, 'PPP', { locale: ptBR })
-                  : 'Selecione uma data'
-                }
-              </span>
+              {date
+                ? format(date, 'dd/MM/yyyy')
+                : <span>Selecione uma dat</span>
+              }
             </div>
             <ChevronDown className="size-4 opacity-50" />
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent>
-          <Calendar />
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+            locale={ptBR}
+            autoFocus
+          />
         </PopoverContent>
       </Popover>
 
-      <Button
-        variant="outline"
+      <NavigationButton
+        tooltipText="Próximo dia"
         onClick={() => handleNavigateDay(1)}
       >
         <ChevronRight className="size-4" />
-      </Button>
+      </NavigationButton>
     </div>
   )
 }
