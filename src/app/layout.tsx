@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { Inter, Inter_Tight } from "next/font/google";
 
+import { Header } from "@/components/header";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 import "@/styles/global.css";
@@ -35,8 +36,13 @@ export default function RootLayout({
       className={`${inter.variable} ${interTight.variable} antialiased`}
     >
       <body>
-        <TooltipProvider>{children}</TooltipProvider>
-        <Toaster position="top-right" />
+        <Header />
+        <div className="max-w-3xl mx-auto">
+          <main className="flex flex-1 flex-col mt-12">
+            <TooltipProvider>{children}</TooltipProvider>
+          </main>
+          <Toaster position="top-right" />
+        </div>
       </body>
     </html>
   );
