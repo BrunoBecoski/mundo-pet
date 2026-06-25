@@ -80,8 +80,8 @@ export function DatePicker() {
             <div className="flex items-center gap-2">
               <CalendarIcon className="size-4 text-content-brand" />
               {date
-                ? format(date, 'dd/MM/yyyy')
-                : <span>Selecione uma dat</span>
+                ? format(date, 'dd/MM/yyyy', { locale: ptBR })
+                : <span>Selecione uma data</span>
               }
             </div>
             <ChevronDown className="size-4 opacity-50" />

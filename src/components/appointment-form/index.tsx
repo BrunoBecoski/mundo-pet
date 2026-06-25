@@ -22,7 +22,6 @@ import {
   Loader2
 } from "lucide-react";
 
-
 import { createAppointment, updateAppointment } from "@/app/actions";
 import { cn } from "@/lib/utils";
 import type { AppointmentType } from "@/types/appointments";
@@ -48,6 +47,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { ptBR } from "date-fns/locale";
 
 const asZodResolver = <T extends FieldValues>(
   schema: unknown,
@@ -107,13 +107,22 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
   async function onSubmit(data: AppointmentFormValues) {
     const [hour, minute] = data.time.split(':')
 
-    data.scheduleAt.setHours(Number(hour), Number(minute), 0, 0)
+    const scheduleAt = setMinutes(
+      setHours(data.scheduleAt, Number(hour)),
+      Number(minute)
+    )
 
     const isEdit = !!appointment?.id
 
     const result = isEdit
-      ? await updateAppointment(appointment.id, data)
-      : await createAppointment(data)
+      ? await updateAppointment(appointment.id, {
+        ...data,
+        scheduleAt,
+      })
+      : await createAppointment({
+        ...data,
+        scheduleAt,
+      })
 
     if (result?.error) {
       toast.error(result.error)
@@ -305,7 +314,7 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                           <div className="flex items-center gap-2">
                             <CalendarIcon className="size-5 text-content-brand" />
                             {field.value
-                              ? (format(field.value, 'dd/MM/yyyy'))
+                              ? (format(field.value, 'dd/MM/yyyy', { locale: ptBR }))
                               : (<span>Selecione uma data</span>)}
                           </div>
 
