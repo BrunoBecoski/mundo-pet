@@ -93,7 +93,11 @@ export function AppointmentCard({ appointment, isFirstInSection = false }: Appoi
               </AlertDialogTitle>
 
               <AlertDialogDescription>
-                Tem certeza que deseja remover este agendamento? Esta ação não pode ser desfeita.
+                Tem certeza que deseja remover este agendamento? 
+                <br/>
+                <strong>{appointment.petName}/{appointment.ownerName}</strong> ás <i>{appointment.time} horas</i>
+                <br/>
+                Esta ação não pode ser desfeita.
               </AlertDialogDescription>
             </AlertDialogHeader>
 

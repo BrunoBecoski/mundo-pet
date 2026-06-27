@@ -157,13 +157,19 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
         <DialogHeader>
           <DialogTitle size="modal">
             <span className="text-content-primary">
-              Agende um atendimento
+              {appointment 
+                ? 'Edite o atendimento' 
+                : 'Agende um atendimento'
+              }
             </span>
           </DialogTitle>
 
           <DialogDescription size="modal">
             <span className="text-content-secondary">
-              Preencha os dados do cliente para realizar o agendamento:
+              {appointment  
+                ? 'Edite os dados do cliente e atualize o agendamento:'
+                : 'Preencha os dados do cliente para realizar o agendamento:'
+              }
             </span>
           </DialogDescription>
         </DialogHeader>
@@ -394,7 +400,10 @@ export function AppointmentForm({ appointment, children }: AppointmentFormProps)
                 <Loader2 className="size-4 animate-spin" />
               )}
 
-              Agendar
+              {appointment 
+                ? 'Atualizar'
+                : 'Agendar'
+              }
             </Button>
           </div>
         </form>
